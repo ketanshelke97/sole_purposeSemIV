@@ -21,7 +21,7 @@
             <div class="hero-content">
                 <h1>Step Smart. Step Sustainably.</h1>
                 <p>Find shoes that fit your feet, your planet, and your style.</p>
-                <a href="<?php echo BASE_URL; ?>pages/bestseller.php" class="btn-primary">Shop Now</a>
+                <a href="<?php echo BASE_URL; ?>shop.php" class="btn-primary">Shop Now</a>
             </div>
         </section>
 

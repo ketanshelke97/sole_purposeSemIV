@@ -755,6 +755,8 @@ a.feature-link, a.feature-link:hover {
     padding: 1.5rem;
     position: sticky;
     top: 90px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
 }
 
 .filter-header {

@@ -30,41 +30,41 @@ if (isset($_SESSION['Loggedin']) && $_SESSION['Loggedin'] == true){
                 <a href="#">Men</a>
                 <div class="mega-menu">
                     <div class="mega-menu-column">
-                        <h4><a href="<?php echo BASE_URL; ?>pages/bestseller.php">Best Sellers</a></h4>
-                        <h4>New Arrivals</h4>
-                        <h4>Orthopedic</h4>
-                        <h4>Sale</h4>
+                        <h4><a href="<?php echo BASE_URL; ?>shop.php?gender=men" style="color: inherit;">Best Sellers</a></h4>
+                        <h4><a href="<?php echo BASE_URL; ?>shop.php?gender=men" style="color: inherit;">New Arrivals</a></h4>
+                        <h4><a href="<?php echo BASE_URL; ?>shop.php?gender=men&comfort=Orthopedic" style="color: inherit;">Orthopedic</a></h4>
+                        <h4><a href="<?php echo BASE_URL; ?>shop.php?gender=men" style="color: inherit;">Sale</a></h4>
                     </div>
                     <div class="mega-menu-column">
                         <h4>Shoes</h4>
                         <ul>
-                            <li><a href="<?php echo BASE_URL; ?>products/men/men-all-shoes.php">All Shoes</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/men/men-loafers.php">Loafers</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/men/men-dress-shoes.php">Dress</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/men/men-boots.php">Boots</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/men/men-slides.php">Slides</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men">All Shoes</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=loafers">Loafers</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=dress-shoes">Dress</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=boots">Boots</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=slides">Slides</a></li>
                         </ul>
                     </div>
                     <div class="mega-menu-column">
                         <h4>Accessories</h4>
                         <ul>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/shoe-care.php">Shoe Care</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/insoles.php">Insoles</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/laces.php">Laces</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/socks.php">Socks</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/bunion-correctors.php">Bunion Correctors</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/toe-separators.php">Toe Separators</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/arch-cushions.php">Arch Cushions</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/heel-pads.php">Heel Pads</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=shoe-care">Shoe Care</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=insoles">Insoles</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=laces">Laces</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=socks">Socks</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=bunion-correctors">Bunion Correctors</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=toe-separators">Toe Separators</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=arch-cushions">Arch Cushions</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=heel-pads">Heel Pads</a></li>
                         </ul>
                     </div>
                     <div class="mega-menu-column">
                         <h4>Foot Pain</h4>
                         <ul>
-                            <li><a href="<?php echo BASE_URL; ?>products/conditions/orthopedic-men.php">Orthopedic</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/conditions/heel-pain-men.php">Heel Pain</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/conditions/arch-support-men.php">Arch Support</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/conditions/flat-feet-men.php">Flat Feet</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&comfort=Orthopedic">Orthopedic</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&comfort=Heel+Pain">Heel Pain</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&comfort=Arch+Support">Arch Support</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&comfort=Flat+Feet">Flat Feet</a></li>
                         </ul>
                     </div>
                 </div>
@@ -74,41 +74,41 @@ if (isset($_SESSION['Loggedin']) && $_SESSION['Loggedin'] == true){
                 <a href="#">Women</a>
                 <div class="mega-menu">
                     <div class="mega-menu-column">
-                        <h4><a href="<?php echo BASE_URL; ?>pages/bestseller.php">Best Sellers</a></h4>
-                        <h4>New Arrivals</h4>
-                        <h4>Orthopedic</h4>
-                        <h4>Sale</h4>
+                        <h4><a href="<?php echo BASE_URL; ?>shop.php?gender=women" style="color: inherit;">Best Sellers</a></h4>
+                        <h4><a href="<?php echo BASE_URL; ?>shop.php?gender=women" style="color: inherit;">New Arrivals</a></h4>
+                        <h4><a href="<?php echo BASE_URL; ?>shop.php?gender=women&comfort=Orthopedic" style="color: inherit;">Orthopedic</a></h4>
+                        <h4><a href="<?php echo BASE_URL; ?>shop.php?gender=women" style="color: inherit;">Sale</a></h4>
                     </div>
                     <div class="mega-menu-column">
                         <h4>Shoes</h4>
                         <ul>
-                            <li><a href="<?php echo BASE_URL; ?>products/women/women-all-shoes.php">All Shoes</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/women/women-loafers.php">Loafers</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/women/women-heels.php">Heels</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/women/women-boots.php">Boots</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/women/women-slides.php">Slides</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women">All Shoes</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women&category=loafers">Loafers</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women&category=heels">Heels</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women&category=boots">Boots</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women&category=slides">Slides</a></li>
                         </ul>
                     </div>
                     <div class="mega-menu-column">
                         <h4>Accessories</h4>
                         <ul>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/shoe-care.php">Shoe Care</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/insoles.php">Insoles</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/laces.php">Laces</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/socks.php">Socks</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/bunion-correctors.php">Bunion Correctors</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/toe-separators.php">Toe Separators</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/arch-cushions.php">Arch Cushions</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/accessories/heel-pads.php">Heel Pads</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=shoe-care">Shoe Care</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=insoles">Insoles</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=laces">Laces</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=socks">Socks</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=bunion-correctors">Bunion Correctors</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=toe-separators">Toe Separators</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=arch-cushions">Arch Cushions</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?category=heel-pads">Heel Pads</a></li>
                         </ul>
                     </div>
                     <div class="mega-menu-column">
                         <h4>Foot Pain</h4>
                         <ul>
-                            <li><a href="<?php echo BASE_URL; ?>products/conditions/orthopedic-women.php">Orthopedic</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/conditions/heel-pain-women.php">Heel Pain</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/conditions/arch-support-women.php">Arch Support</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>products/conditions/flat-feet-women.php">Flat Feet</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women&comfort=Orthopedic">Orthopedic</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women&comfort=Heel+Pain">Heel Pain</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women&comfort=Arch+Support">Arch Support</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=women&comfort=Flat+Feet">Flat Feet</a></li>
                         </ul>
                     </div>
                 </div>
