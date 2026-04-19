@@ -114,6 +114,7 @@ if (isset($_SESSION['Loggedin']) && $_SESSION['Loggedin'] == true){
                 </div>
             </li>
 
+            <li><a href="<?php echo BASE_URL; ?>shop.php">Shop</a></li>
             <li><a href="<?php echo BASE_URL; ?>pages/cart.php">Cart</a></li>
 
             <!-- DYNAMIC LOGIN/LOGOUT LINKS -->
@@ -123,6 +124,7 @@ if (isset($_SESSION['Loggedin']) && $_SESSION['Loggedin'] == true){
                 echo '<li><a href="' . BASE_URL . 'auth/signup.php">Signup</a></li>';
             }
             if($loggedin){
+                echo '<li><a href="' . BASE_URL . 'pages/wishlist.php">Wishlist</a></li>';
                 echo '<li><a href="' . BASE_URL . 'auth/profile.php">Profile</a></li>';
                 echo '<li><a href="' . BASE_URL . 'auth/logout.php">Logout</a></li>';
             }
