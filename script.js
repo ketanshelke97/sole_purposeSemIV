@@ -1,15 +1,67 @@
 // =====================================================
 // Sole Purpose - Main JavaScript
 // =====================================================
-// Handles: Size Converter Modal, Eco-Friendly Page,
-// Size Selector, Wishlist Toggle, Cart (AJAX + localStorage),
-// Buy Now Button, and Hamburger Menu.
+// Handles: Toast Notifications, Size Converter Modal,
+// Eco-Friendly Page, Size Selector, Wishlist Toggle,
+// Cart (AJAX + localStorage), Cart Badge, Checkout
+// Payment Selection, and Hamburger Menu.
 // =====================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // Use the PHP-set BASE_URL variable, or fallback
     const baseUrl = (typeof BASE_URL !== 'undefined') ? BASE_URL : '/sole_purposeSemIV/';
+
+
+    // =====================================================
+    // TOAST NOTIFICATION SYSTEM
+    // =====================================================
+    // Creates a toast container if it doesn't exist, then
+    // appends styled toast messages that auto-dismiss.
+    // Types: 'success', 'error', 'info'
+    // =====================================================
+    function showToast(message, type = 'success', duration = 3000) {
+        let container = document.querySelector('.toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'toast-container';
+            document.body.appendChild(container);
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+
+        // Pick icon based on type
+        let icon = '✅';
+        if (type === 'error') icon = '❌';
+        if (type === 'info') icon = 'ℹ️';
+
+        toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${message}</span>`;
+        container.appendChild(toast);
+
+        // Auto-dismiss
+        setTimeout(() => {
+            toast.classList.add('toast-exit');
+            toast.addEventListener('animationend', () => toast.remove());
+        }, duration);
+    }
+
+
+    // =====================================================
+    // CART BADGE UPDATE HELPER
+    // =====================================================
+    function updateCartBadge(delta) {
+        const badge = document.getElementById('cart-badge');
+        if (!badge) return;
+        let current = parseInt(badge.getAttribute('data-count') || '0', 10);
+        current += delta;
+        if (current < 0) current = 0;
+        badge.setAttribute('data-count', current);
+        badge.textContent = current;
+        // Show/hide based on count
+        badge.style.display = current > 0 ? 'inline-flex' : 'none';
+    }
+
 
     // --- SIZE CONVERTER MODAL LOGIC ---
     const openModalBtn = document.getElementById('open-size-converter');
@@ -106,16 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(data => {
                 if (data.message === 'login_required') {
-                    alert('Please log in to use the Wishlist feature.');
+                    showToast('Please log in to use the Wishlist feature.', 'info');
                     return;
                 }
                 if (data.success) {
                     if (data.action === 'added') {
                         btn.classList.add('wishlisted');
                         btn.textContent = '♥ Wishlisted';
+                        showToast('Added to your Wishlist!', 'success');
                     } else {
                         btn.classList.remove('wishlisted');
                         btn.textContent = '♡ Wishlist';
+                        showToast('Removed from Wishlist.', 'info');
                         // If on wishlist page, remove the card
                         if (window.location.href.includes('wishlist.php')) {
                             btn.closest('.product-card').remove();
@@ -165,12 +219,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
                     cart.push({ title, price, image, size: selectedSize });
                     localStorage.setItem('cart', JSON.stringify(cart));
-                    alert(`"${title}" (Size: ${selectedSize}) added to cart!`);
+                    showToast(`"${title}" (Size: ${selectedSize}) added to cart!`, 'success');
                     return;
                 }
                 if (data.success) {
                     const title = card.querySelector('.product-title')?.innerText || 'Item';
-                    alert(`"${title}" (Size: US ${selectedSize}) added to cart!`);
+                    showToast(`"${title}" (Size: US ${selectedSize}) added to cart!`, 'success');
+                    updateCartBadge(1);
                 }
             })
             .catch(err => console.error('Cart error:', err));
@@ -230,7 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.message === 'login_required') {
                     localStorage.removeItem('cart');
                 }
-                location.reload();
+                showToast('Cart cleared successfully.', 'info');
+                setTimeout(() => location.reload(), 800);
             })
             .catch(() => {
                 localStorage.removeItem('cart');
@@ -253,23 +309,13 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    location.reload();
+                    showToast('Item removed from cart.', 'info');
+                    setTimeout(() => location.reload(), 800);
                 }
             })
             .catch(err => console.error('Remove error:', err));
         });
     });
-
-
-    // =====================================================
-    // BUY NOW BUTTON
-    // =====================================================
-    const buyNowBtn = document.getElementById('buy-now-btn');
-    if (buyNowBtn) {
-        buyNowBtn.addEventListener('click', () => {
-            alert('🎉 Thank you for your order!\n\nYour order has been placed successfully. This is a demo feature — in a real application, this would proceed to a payment gateway.\n\nThank you for shopping with Sole Purpose!');
-        });
-    }
 
 
     // =====================================================
@@ -286,8 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    alert('✅ ' + data.message + '\n\nAll wishlist items have been added to your cart!');
-                    location.reload();
+                    showToast('All wishlist items added to your cart!', 'success');
+                    setTimeout(() => location.reload(), 1000);
                 }
             })
             .catch(err => console.error('Add all to cart error:', err));
@@ -305,12 +351,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        alert('Wishlist cleared successfully.');
-                        location.reload();
+                        showToast('Wishlist cleared.', 'info');
+                        setTimeout(() => location.reload(), 800);
                     }
                 })
                 .catch(err => console.error('Clear wishlist error:', err));
             }
+        });
+    }
+
+
+    // =====================================================
+    // CHECKOUT PAGE - PAYMENT METHOD SELECTION
+    // =====================================================
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    if (paymentOptions.length > 0) {
+        paymentOptions.forEach(option => {
+            const radio = option.querySelector('input[type="radio"]');
+            
+            // Set initial selected state
+            if (radio && radio.checked) {
+                option.classList.add('selected');
+            }
+
+            option.addEventListener('click', () => {
+                // Remove selected from all
+                paymentOptions.forEach(o => o.classList.remove('selected'));
+                // Add selected to clicked one
+                option.classList.add('selected');
+                // Check the radio
+                if (radio) radio.checked = true;
+            });
         });
     }
 

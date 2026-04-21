@@ -115,7 +115,28 @@ if (isset($_SESSION['Loggedin']) && $_SESSION['Loggedin'] == true){
             </li>
 
             <li><a href="<?php echo BASE_URL; ?>shop.php">Shop</a></li>
-            <li><a href="<?php echo BASE_URL; ?>pages/cart.php">Cart</a></li>
+            <li>
+                <a href="<?php echo BASE_URL; ?>pages/cart.php" class="cart-nav-link">Cart<?php
+                    // Calculate cart item count for badge
+                    $cartCount = 0;
+                    if ($loggedin) {
+                        require_once __DIR__ . '/partials/_dbconnect.php';
+                        $cartUsername = $_SESSION['username'];
+                        $cartUserQ = mysqli_query($connection, "SELECT `sno` FROM `users` WHERE `username`='$cartUsername'");
+                        $cartUserData = mysqli_fetch_assoc($cartUserQ);
+                        if ($cartUserData) {
+                            $cartCountQ = mysqli_query($connection, "SELECT SUM(`quantity`) as cnt FROM `cart_items` WHERE `user_id`=" . $cartUserData['sno']);
+                            $cartCountRow = mysqli_fetch_assoc($cartCountQ);
+                            $cartCount = $cartCountRow['cnt'] ? intval($cartCountRow['cnt']) : 0;
+                        }
+                    }
+                    if ($cartCount > 0) {
+                        echo '<span class="cart-badge" id="cart-badge" data-count="' . $cartCount . '">' . $cartCount . '</span>';
+                    } else {
+                        echo '<span class="cart-badge" id="cart-badge" data-count="0"></span>';
+                    }
+                ?></a>
+            </li>
 
             <!-- DYNAMIC LOGIN/LOGOUT LINKS -->
             <?php

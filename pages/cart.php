@@ -95,7 +95,7 @@ if ($loggedin) {
 
             <div class="cart-actions">
                 <button id="clear-cart-btn" class="btn-secondary">Clear Cart</button>
-                <button id="buy-now-btn" class="btn-primary btn-buy-now">Buy Now</button>
+                <a href="<?php echo BASE_URL; ?>pages/checkout.php" class="btn-primary btn-buy-now">Proceed to Checkout</a>
             </div>
         <?php endif; ?>
     </main>

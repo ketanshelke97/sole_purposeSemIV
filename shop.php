@@ -3,30 +3,46 @@
 <?php include __DIR__ . '/partials/_dbconnect.php'; ?>
 <?php
 // =====================================================
-// Dynamic Shop Page with Smart Filters
+// Dynamic Shop Page with Smart Filters + Search + Sort
 // =====================================================
 
 // --- Read filter parameters from URL ---
 $gender = isset($_GET['gender']) ? $_GET['gender'] : '';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
-$comfort = isset($_GET['comfort']) ? $_GET['comfort'] : '';
-$brand = isset($_GET['brand']) ? $_GET['brand'] : '';
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+
+// Comfort and Brand are now arrays (checkboxes)
+$comforts = isset($_GET['comfort']) ? (array)$_GET['comfort'] : [];
+$brands = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
 $budget = isset($_GET['budget']) ? $_GET['budget'] : '';
 
 // --- Build SQL query dynamically ---
 $where = [];
 
 if ($gender && $gender !== 'all') {
-    $where[] = "(gender = '$gender' OR gender = 'unisex')";
+    $where[] = "(gender = '" . mysqli_real_escape_string($connection, $gender) . "' OR gender = 'unisex')";
 }
 if ($category) {
-    $where[] = "category = '$category'";
+    $where[] = "category = '" . mysqli_real_escape_string($connection, $category) . "'";
 }
-if ($comfort) {
-    $where[] = "comfort_tag = '$comfort'";
+if ($search) {
+    $escapedSearch = mysqli_real_escape_string($connection, $search);
+    $where[] = "(title LIKE '%$escapedSearch%' OR description LIKE '%$escapedSearch%' OR category LIKE '%$escapedSearch%')";
 }
-if ($brand) {
-    $where[] = "brand_type = '$brand'";
+if (!empty($comforts)) {
+    $comfortConditions = [];
+    foreach ($comforts as $c) {
+        $comfortConditions[] = "comfort_tag = '" . mysqli_real_escape_string($connection, $c) . "'";
+    }
+    $where[] = "(" . implode(" OR ", $comfortConditions) . ")";
+}
+if (!empty($brands)) {
+    $brandConditions = [];
+    foreach ($brands as $b) {
+        $brandConditions[] = "brand_type = '" . mysqli_real_escape_string($connection, $b) . "'";
+    }
+    $where[] = "(" . implode(" OR ", $brandConditions) . ")";
 }
 if ($budget) {
     switch ($budget) {
@@ -52,14 +68,37 @@ $sql = "SELECT * FROM `products`";
 if (count($where) > 0) {
     $sql .= " WHERE " . implode(" AND ", $where);
 }
-$sql .= " ORDER BY `price` ASC";
+
+// --- Sort logic ---
+switch ($sort) {
+    case 'price-asc':
+        $sql .= " ORDER BY `price` ASC";
+        break;
+    case 'price-desc':
+        $sql .= " ORDER BY `price` DESC";
+        break;
+    case 'newest':
+        $sql .= " ORDER BY `created_at` DESC";
+        break;
+    case 'name-asc':
+        $sql .= " ORDER BY `title` ASC";
+        break;
+    default:
+        $sql .= " ORDER BY `price` ASC";
+        break;
+}
 
 $result = mysqli_query($connection, $sql);
 
 // --- Generate page title ---
 $pageTitle = 'All Products';
-if ($gender === 'men') $pageTitle = "Men's Collection";
-if ($gender === 'women') $pageTitle = "Women's Collection";
+if ($search) {
+    $pageTitle = 'Search: "' . htmlspecialchars($search) . '"';
+} elseif ($gender === 'men') {
+    $pageTitle = "Men's Collection";
+} elseif ($gender === 'women') {
+    $pageTitle = "Women's Collection";
+}
 if ($category) {
     $catDisplay = ucwords(str_replace('-', ' ', $category));
     $pageTitle = ($gender ? ucfirst($gender) . "'s " : '') . $catDisplay;
@@ -168,6 +207,18 @@ if ($loggedin) {
                             <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
                         <?php endif; ?>
 
+                        <!-- Search Bar -->
+                        <input type="text" name="search" class="filter-search-input" placeholder="Search products..." value="<?php echo htmlspecialchars($search); ?>">
+
+                        <!-- Sort Dropdown -->
+                        <select name="sort" class="sort-select">
+                            <option value="" <?php echo $sort === '' ? 'selected' : ''; ?>>Sort by: Default</option>
+                            <option value="price-asc" <?php echo $sort === 'price-asc' ? 'selected' : ''; ?>>Price: Low to High</option>
+                            <option value="price-desc" <?php echo $sort === 'price-desc' ? 'selected' : ''; ?>>Price: High to Low</option>
+                            <option value="newest" <?php echo $sort === 'newest' ? 'selected' : ''; ?>>Newest First</option>
+                            <option value="name-asc" <?php echo $sort === 'name-asc' ? 'selected' : ''; ?>>Name: A to Z</option>
+                        </select>
+
                         <!-- Budget Filter -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">Budget</h4>
@@ -193,40 +244,40 @@ if ($loggedin) {
                             </label>
                         </div>
 
-                        <!-- Comfort Filter -->
+                        <!-- Comfort Filter (CHECKBOXES) -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">Comfort Type</h4>
                             <label class="filter-option">
-                                <input type="radio" name="comfort" value="Orthopedic" <?php echo $comfort === 'Orthopedic' ? 'checked' : ''; ?>>
+                                <input type="checkbox" name="comfort[]" value="Orthopedic" <?php echo in_array('Orthopedic', $comforts) ? 'checked' : ''; ?>>
                                 <span>Orthopedic</span>
                             </label>
                             <label class="filter-option">
-                                <input type="radio" name="comfort" value="Arch Support" <?php echo $comfort === 'Arch Support' ? 'checked' : ''; ?>>
+                                <input type="checkbox" name="comfort[]" value="Arch Support" <?php echo in_array('Arch Support', $comforts) ? 'checked' : ''; ?>>
                                 <span>Arch Support</span>
                             </label>
                             <label class="filter-option">
-                                <input type="radio" name="comfort" value="Heel Pain" <?php echo $comfort === 'Heel Pain' ? 'checked' : ''; ?>>
+                                <input type="checkbox" name="comfort[]" value="Heel Pain" <?php echo in_array('Heel Pain', $comforts) ? 'checked' : ''; ?>>
                                 <span>Heel Pain Relief</span>
                             </label>
                             <label class="filter-option">
-                                <input type="radio" name="comfort" value="Flat Feet" <?php echo $comfort === 'Flat Feet' ? 'checked' : ''; ?>>
+                                <input type="checkbox" name="comfort[]" value="Flat Feet" <?php echo in_array('Flat Feet', $comforts) ? 'checked' : ''; ?>>
                                 <span>Flat Feet</span>
                             </label>
                             <label class="filter-option">
-                                <input type="radio" name="comfort" value="Comfort" <?php echo $comfort === 'Comfort' ? 'checked' : ''; ?>>
+                                <input type="checkbox" name="comfort[]" value="Comfort" <?php echo in_array('Comfort', $comforts) ? 'checked' : ''; ?>>
                                 <span>General Comfort</span>
                             </label>
                         </div>
 
-                        <!-- Brand Type Filter -->
+                        <!-- Brand Type Filter (CHECKBOXES) -->
                         <div class="filter-group">
                             <h4 class="filter-group-title">Brand Type</h4>
                             <label class="filter-option">
-                                <input type="radio" name="brand" value="Local" <?php echo $brand === 'Local' ? 'checked' : ''; ?>>
+                                <input type="checkbox" name="brand[]" value="Local" <?php echo in_array('Local', $brands) ? 'checked' : ''; ?>>
                                 <span>Local Brands</span>
                             </label>
                             <label class="filter-option">
-                                <input type="radio" name="brand" value="Premium" <?php echo $brand === 'Premium' ? 'checked' : ''; ?>>
+                                <input type="checkbox" name="brand[]" value="Premium" <?php echo in_array('Premium', $brands) ? 'checked' : ''; ?>>
                                 <span>Premium Brands</span>
                             </label>
                         </div>
