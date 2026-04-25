@@ -114,6 +114,7 @@ if (isset($_SESSION['Loggedin']) && $_SESSION['Loggedin'] == true){
                 </div>
             </li>
 
+            <li><a href="<?php echo BASE_URL; ?>pages/foot-quiz.php">Foot Quiz</a></li>
             <li><a href="<?php echo BASE_URL; ?>shop.php">Shop</a></li>
             <li>
                 <a href="<?php echo BASE_URL; ?>pages/cart.php" class="cart-nav-link">Cart<?php

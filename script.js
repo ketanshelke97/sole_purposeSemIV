@@ -99,6 +99,94 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- FOOT QUIZ LOGIC ---
+    const quizBox = document.getElementById('quiz-box');
+    const quizSteps = document.querySelectorAll('.quiz-step');
+    const quizProgress = document.getElementById('quiz-progress');
+    const optionBtns = document.querySelectorAll('.quiz-option-btn');
+    const backBtns = document.querySelectorAll('.back-btn');
+    let currentStep = 1;
+    let quizData = {
+        gender: '',
+        arch: '',
+        width: ''
+    };
+
+    if (quizBox) {
+        // Option selection
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const key = btn.getAttribute('data-key');
+                const value = btn.getAttribute('data-value');
+                quizData[key] = value;
+
+                if (currentStep < 3) {
+                    goToStep(currentStep + 1);
+                } else {
+                    showResults();
+                }
+            });
+        });
+
+        // Back button
+        backBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                goToStep(currentStep - 1);
+            });
+        });
+
+        function goToStep(step) {
+            currentStep = step;
+            quizSteps.forEach(s => s.classList.remove('active'));
+            const activeStep = document.querySelector(`.quiz-step[data-step="${currentStep}"]`);
+            if (activeStep) activeStep.classList.add('active');
+            
+            // Update progress
+            const progress = (currentStep / 4) * 100;
+            quizProgress.style.width = `${progress}%`;
+        }
+
+        function showResults() {
+            goToStep(4);
+            const resultsDiv = document.getElementById('quiz-results');
+            
+            // Simulate processing
+            setTimeout(() => {
+                let recommendationTitle = "";
+                let recommendationDesc = "";
+                let shopLink = baseUrl + "shop.php?gender=" + quizData.gender;
+
+                // Wire logic
+                if (quizData.arch === 'flat') {
+                    recommendationTitle = "Orthopedic & Flat Feet Support";
+                    recommendationDesc = "Based on your low arch, you need shoes with structured support to prevent overpronation.";
+                    shopLink += "&comfort=Flat+Feet";
+                } else if (quizData.arch === 'high') {
+                    recommendationTitle = "High Arch Cushioning";
+                    recommendationDesc = "Your high arches require extra cushioning and flexible support to absorb shock.";
+                    shopLink += "&comfort=Arch+Support";
+                } else {
+                    recommendationTitle = "Natural Motion & Neutral Fit";
+                    recommendationDesc = "A neutral profile with balanced cushioning will keep your feet in their natural alignment.";
+                    // Medium arch is standard fitting
+                }
+
+                if (quizData.width === 'wide') {
+                    recommendationDesc += " We've also prioritized models with a wider toe-box for your comfort.";
+                }
+
+                resultsDiv.innerHTML = `
+                    <div class="results-card">
+                        <h2>Your Perfect Match</h2>
+                        <span class="highlight">${recommendationTitle}</span>
+                        <p>${recommendationDesc}</p>
+                        <a href="${shopLink}" class="btn-primary" style="padding: 1rem 3rem;">View Your Curated Collection</a>
+                    </div>
+                `;
+            }, 1000);
+        }
+    }
+
     // --- ECO-FRIENDLY PAGE LOGIC ---
     const findLocationBtn = document.getElementById('find-location-btn');
     const pincodeInput = document.getElementById('pincode-input');
@@ -384,6 +472,39 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+
+    // =====================================================
+    // SMART SCROLL NAVBAR (Hide on scroll down, show on scroll up)
+    // =====================================================
+    const mainHeader = document.querySelector('header');
+    let lastScrollY = window.scrollY;
+    let hideTimeout;
+
+    function handleScroll() {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY <= 0) {
+            mainHeader.classList.remove('navbar-scroll-hidden');
+            mainHeader.classList.add('navbar-scroll-visible');
+            return;
+        }
+
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            mainHeader.classList.add('navbar-scroll-hidden');
+            mainHeader.classList.remove('navbar-scroll-visible');
+        } else {
+            mainHeader.classList.remove('navbar-scroll-hidden');
+            mainHeader.classList.add('navbar-scroll-visible');
+        }
+
+        lastScrollY = currentScrollY;
+    }
+
+    window.addEventListener('scroll', () => {
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(handleScroll, 10);
+    }, { passive: true });
 
 
     // =====================================================
