@@ -29,7 +29,7 @@
         <p>You are successfully logged into your Sole Purpose account.</p>
         
         <div class="profile-buttons" style="margin-top: 2rem;">
-            <a href="<?php echo BASE_URL; ?>index.php" class="btn-primary">Continue Shopping</a>
+            <a href="<?php echo BASE_URL; ?>shop.php" class="btn-primary">Continue Shopping</a>
             <a href="logout.php" class="btn-secondary">Logout</a>
         </div>
     </div>
