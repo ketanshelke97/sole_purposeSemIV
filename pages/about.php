@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="about-footer">
-        <a href="<?php echo BASE_URL; ?>index.php" class="btn-primary">Back to Home</a>
+        <a href="<?php echo BASE_URL; ?>index.php" class="btn-secondary">Back to Home</a>
     </div>
 </main>
 
