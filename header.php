@@ -40,7 +40,7 @@ if (isset($_SESSION['Loggedin']) && $_SESSION['Loggedin'] == true){
                         <ul>
                             <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men">All Shoes</a></li>
                             <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=loafers">Loafers</a></li>
-                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=dress-shoes">Dress</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=dress">Dress</a></li>
                             <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=boots">Boots</a></li>
                             <li><a href="<?php echo BASE_URL; ?>shop.php?gender=men&category=slides">Slides</a></li>
                         </ul>
