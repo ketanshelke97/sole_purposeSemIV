@@ -192,6 +192,16 @@ header {
 }
 .about-preview h2 { font-size: 2rem; margin-bottom: 1rem; }
 .about-preview p { margin-bottom: 2rem; }
+.about-preview .btn-secondary {
+    color: #991B1B;
+    border: 2px solid #991B1B;
+    background-color: transparent;
+}
+.about-preview .btn-secondary:hover {
+    background-color: #991B1B;
+    color: #ffffff;
+    transform: translateY(-3px);
+}
 
 footer {
     text-align: center;
