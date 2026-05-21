@@ -156,3 +156,7 @@ if (isset($_SESSION['Loggedin']) && $_SESSION['Loggedin'] == true){
         </ul>
     </nav>
 </header>
+
+<!-- Pass BASE_URL to JavaScript globally for all pages -->
+<script>var BASE_URL = '<?php echo BASE_URL; ?>';</script>
+
