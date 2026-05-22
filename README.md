@@ -2,6 +2,8 @@
 
 > **Award-Winning Semester IV Project**
 > *Step Smart. Step Sustainably.*
+> 
+> 🌐 **Live Demo:** [ssolepurposee.infinityfreeapp.com](https://ssolepurposee.infinityfreeapp.com/)
 
 **Sole Purpose** is a specialized, community-focused e-commerce platform designed to promote sustainable footwear and support local Indian artisans. Beyond standard e-commerce functionality, it integrates unique tools centered around foot health and inclusive sizing.
 
